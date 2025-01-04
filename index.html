@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        table{
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td{
+            border: 1px solid #ccc;
+            text-align: center;
+            padding: 10px;
+        }
+
+        th{
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>プラン料金計算</h1>
+    <table>
+        <thread>
+            <th>プラン名</th>
+            <th>料金</th>
+            <th>選択</th>
+        </thread>
+        <tbody>
+            <tr>
+                <td>プランA</td>
+                <td class="price">1000</td>
+                <td><input type="checkbox" class="plan-checkbox"></td>
+            </tr>
+            <tr>
+                <td>プランB</td>
+                <td class="price">2000</td>
+                <td><input type="checkbox" class="plan-checkbox"></td>
+            </tr>
+            <tr>
+                <td>プランC</td>
+                <td class="price">3000</td>
+                <td><input type="checkbox" class="plan-checkbox"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>合計 : <span id="total">0</span></h2>
+
+    <script>
+        const checkboxes = document.querySelectorAll('.plan-checkbox');
+        const totalElement = document.getElementById('total');
+
+        let total = 0;
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', (event) => {
+                const row = event.target.closest('tr');
+                const price = parseInt(row.querySelector('.price').textContent);
+
+                if(event.target.checked){
+                    total += price;
+                }else{
+                    total -= price;
+                }
+
+                totalElement.textContent = total;
+            });
+        });
+    </script>
+</body>
+</html>

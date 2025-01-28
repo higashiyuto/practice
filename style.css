@@ -1,0 +1,91 @@
+select{
+    outline: none;
+    font-weight: bold;
+    font-size: 18px;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+table{
+    font-size: 18px;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table th, table td{
+    width: 100px;
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.device-info table th, table td{
+    width: 33.3%; /*各セルを3等分する*/
+    border: 1px solid #ddd; /*テーブルに1pxの線を描画   */
+    text-align: left;
+}
+
+.Installments table th, table td{
+    width: 20%;
+}
+
+.Installments .price{
+    padding-right: 5px;
+    text-align: right;
+}
+
+.Installments .kaedoki-price{
+    padding-right: 5px;
+    text-align: right;
+}
+
+input[type="checkbox"]{
+    width: 20px;
+    height: 20px;
+}
+
+
+/*details*/
+.details{
+    justify-content: flex-start;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.tab-container{
+    width: 100%;
+    display: flex;
+    padding: 20px;
+}
+
+.tab{
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    margin-right: 1px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.tab.active{
+    background-color: #fff;
+    font-weight: bold;
+}
+
+.content-container{
+    width: 100%;
+    display: flex;
+    padding: 20px;
+}
+
+.tab-content{
+    display: none;
+    padding: 10px 0;
+}
+
+.tab-content.active{
+    display: block;
+    padding: 20px;
+}
+

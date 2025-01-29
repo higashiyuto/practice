@@ -3,6 +3,11 @@
     height:100%;
 }
 
+body{
+    display: flex;
+    font-weight: bold;
+}
+
 select{
     background-color: white;
     outline: none;

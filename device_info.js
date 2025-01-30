@@ -16,6 +16,7 @@ const optionInfo = new OptionInfo();
 /*セレクトボタンの要素*/
 const phoneSelectElement = document.getElementById('phone-select');
 const installmentsNumElement = document.getElementById('installments-num');
+const contractSelectElement = document.getElementById('contract-type');
 
 /*プライスの要素*/
 const phonePriceElement = document.querySelector('.phone-price');
@@ -34,7 +35,8 @@ export let deviceInfo = {
     kaedokiMonthlyPrice: 0,
     normalPrice: 0,
     monthlyPrice: 0,
-    checkPhonePrice: 0
+    checkPhonePrice: 0,
+    priceDiscountPrice: 0
 };
 
 export class DeviceInfo {
@@ -70,6 +72,13 @@ export class DeviceInfo {
         priceCheckboxElement.addEventListener('change', (event) => {
             this.onCheckboxChange(event,deviceInfo.monthlyPrice);
         });
+
+        contractSelectElement.addEventListener('change', (event) => {
+            if(event.target){
+                deviceInfo.priceDiscountPrice = db.getDiscount(phoneSelectElement.value,contractSelectElement.value);
+                this.updatePrices();
+            }
+        });
     }
 
     // 端末を選択した際に価格を更新するメソッド
@@ -77,9 +86,9 @@ export class DeviceInfo {
         const selectedDeviceName = phoneSelectElement.value;
         warranty_option_select["smartあんしん補償"] =  db.getDeviceWarranty(selectedDeviceName);
         deviceInfo.phonePrice = manager.getDevicePrice(selectedDeviceName);
-        deviceInfo.kaedokiPrice = manager.getDeviceKaedokiPrice(selectedDeviceName);
-        deviceInfo.kaedokiMonthlyPrice = manager.getDeviceKaedokiPrice(selectedDeviceName)/23;
-        deviceInfo.normalPrice = manager.getDevicePrice(selectedDeviceName);
+        deviceInfo.kaedokiPrice = parseInt(manager.getDeviceKaedokiPrice(selectedDeviceName)) - parseInt(deviceInfo.priceDiscountPrice);
+        deviceInfo.kaedokiMonthlyPrice = parseInt(deviceInfo.kaedokiPrice)/23;
+        deviceInfo.normalPrice = parseInt(manager.getDevicePrice(selectedDeviceName)) - parseInt(deviceInfo.priceDiscountPrice);
         
         phonePriceElement.textContent = deviceInfo.phonePrice.toLocaleString();
         kaedokiPriceElement.textContent = deviceInfo.kaedokiPrice.toLocaleString() + " 円 =";
@@ -95,7 +104,7 @@ export class DeviceInfo {
     updateMonthlyPrice() {
         const selectedDeviceName = phoneSelectElement.value;
         const installmentsNum = installmentsNumElement.value;
-        deviceInfo.monthlyPrice = manager.getDeviceMonthlyPrice(selectedDeviceName, installmentsNum);
+        deviceInfo.monthlyPrice = manager.getDeviceMonthlyPrice(selectedDeviceName,installmentsNum);
         monthlyPriceElement.textContent = deviceInfo.monthlyPrice.toLocaleString() + " 円";
     }
 
@@ -110,7 +119,7 @@ export class DeviceInfo {
         } else {
             totalPrice.phonePrice = 0;
             deviceInfo.checkPhonePrice = 0;
-            window.Total();
+            wince(selectedDeviceName, installmentsNum);dow.Total();
         }
     }
 

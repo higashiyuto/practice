@@ -17,6 +17,7 @@ const optionInfo = new OptionInfo();
 const phoneSelectElement = document.getElementById('phone-select');
 const contractSelectElement = document.getElementById('contract-type');
 const installmentsNumElement = document.getElementById('installments-num');
+const contractSelectElement = document.getElementById('contract-type');
 
 const priceElements = {
     phonePrice: document.querySelector('.phone-price'),
@@ -33,6 +34,7 @@ const checkboxElements = {
 };
 
 export let deviceInfo = {
+<<<<<<< HEAD
     phonePrice: 0,   //端末代
     kaedokiPrice: 0, //カエドキの値段
     kaedokiMonthlyPrice: 0, //カエドキの値段/23の値段
@@ -40,6 +42,14 @@ export let deviceInfo = {
     monthlyPrice: 0, //端末代 / installmentsNum
     checkPhonePrice: 0, //チェックされた端末の月額料金
     warrantyPrice: 0, // 補償価格
+=======
+    phonePrice: 0,
+    kaedokiPrice: 0,
+    kaedokiMonthlyPrice: 0,
+    normalPrice: 0,
+    monthlyPrice: 0,
+    checkPhonePrice: 0,
+>>>>>>> 57e532745aa129f1162ce31bfdb6fdc9b875aa74
     priceDiscountPrice: 0
 };
 
@@ -80,11 +90,31 @@ export class DeviceInfo {
                 this.updatePrices();
             }
         });
+
+        contractSelectElement.addEventListener('change', (event) => {
+            if(event.target){
+                deviceInfo.priceDiscountPrice = db.getDiscount(phoneSelectElement.value,contractSelectElement.value);
+                this.updatePrices();
+            }
+        });
     }
 
     // 端末を選択した際に価格を更新するメソッド
     updatePrices() {
         const selectedDeviceName = phoneSelectElement.value;
+<<<<<<< HEAD
+=======
+        warranty_option_select["smartあんしん補償"] =  db.getDeviceWarranty(selectedDeviceName);
+        deviceInfo.phonePrice = manager.getDevicePrice(selectedDeviceName);
+        deviceInfo.kaedokiPrice = parseInt(manager.getDeviceKaedokiPrice(selectedDeviceName)) - parseInt(deviceInfo.priceDiscountPrice);
+        deviceInfo.kaedokiMonthlyPrice = parseInt(deviceInfo.kaedokiPrice)/23;
+        deviceInfo.normalPrice = parseInt(manager.getDevicePrice(selectedDeviceName)) - parseInt(deviceInfo.priceDiscountPrice);
+        
+        phonePriceElement.textContent = deviceInfo.phonePrice.toLocaleString();
+        kaedokiPriceElement.textContent = deviceInfo.kaedokiPrice.toLocaleString() + " 円 =";
+        kaedokiMonthlyPriceElement.textContent = Math.floor(deviceInfo.kaedokiMonthlyPrice).toLocaleString() + " 円";
+        normalPriceElement.textContent = deviceInfo.normalPrice.toLocaleString() + " 円 =";
+>>>>>>> 57e532745aa129f1162ce31bfdb6fdc9b875aa74
 
         // 端末の価格を取得
         deviceInfo.phonePrice = manager.getDevicePrice(selectedDeviceName);
@@ -141,8 +171,13 @@ export class DeviceInfo {
     updateMonthlyPrice() {
         const selectedDeviceName = phoneSelectElement.value;
         const installmentsNum = installmentsNumElement.value;
+<<<<<<< HEAD
         deviceInfo.monthlyPrice = Math.floor(parseInt(deviceInfo.normalPrice) / parseInt(installmentsNum));
         priceElements.monthlyPrice.textContent = `${deviceInfo.monthlyPrice.toLocaleString()} 円 / 月`;
+=======
+        deviceInfo.monthlyPrice = manager.getDeviceMonthlyPrice(selectedDeviceName,installmentsNum);
+        monthlyPriceElement.textContent = deviceInfo.monthlyPrice.toLocaleString() + " 円";
+>>>>>>> 57e532745aa129f1162ce31bfdb6fdc9b875aa74
     }
 
     onCheckboxChange(event, optionType) {
@@ -162,6 +197,7 @@ export class DeviceInfo {
             }
             totalPrice["phonePrice"] = 0;
             deviceInfo.checkPhonePrice = 0;
+<<<<<<< HEAD
         }
         window.Total();
     }
@@ -175,6 +211,9 @@ export class DeviceInfo {
                 return deviceInfo.monthlyPrice;
             default:
                 return 0;
+=======
+            wince(selectedDeviceName, installmentsNum);dow.Total();
+>>>>>>> 57e532745aa129f1162ce31bfdb6fdc9b875aa74
         }
     }
 

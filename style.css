@@ -78,6 +78,7 @@ input[type="checkbox"]{
     font-size: 28px;
     text-align: right;
     padding-right: 50px;
+    padding-bottom: 50px;
 }
 
 #wide-button{

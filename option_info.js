@@ -87,13 +87,5 @@ export class OptionInfo{
         const price = parseInt(priceElement.textContent.replace(/[^\d]/g, '')) || 0;
         totalPrice[`${optionType}OptionPrice`] = isChecked ? price : 0;
         window.Total();
-
-        if (isChecked) {
-            // セキュリティのチェックボックスがオンになったとき
-            detailsContentinfo.showTabContent("セキュリティ");
-        } else {
-            // セキュリティのチェックボックスがオフになったとき
-            detailsContentinfo.removeTabContent("セキュリティ");
-        }
     }
 }

@@ -7,13 +7,17 @@ const discount_select = {
 
 const discountSelectElement = document.getElementById('discount-select');
 
-const family_discount_checkbox = document.querySelector('.family-discount-checkbox');
-const wi_fi_discount_checkbox = document.querySelector('.wi-fi-discount-checkbox');
-const dcard_discount_checkbox = document.querySelector('.dcard-discount-checkbox');
+const discountCheckboxElements = {
+    familyDiscount: document.querySelector('.family-discount-checkbox'),
+    wifiDiscount: document.querySelector('.wi-fi-discount-checkbox'),
+    dcardDiscount: document.querySelector('.dcard-discount-checkbox')
+};
 
-const family_discount_price = document.querySelector('.family-discount-price');
-const wi_fi_discount_price = document.querySelector('.wi-fi-discount-price');
-const dcard_discount_price = document.querySelector('.dcard-discount-price');
+const discountPriceElements = {
+    familyDiscount: document.querySelector('.family-discount-price'),
+    wifiDiscount: document.querySelector('.wi-fi-discount-price'),
+    dcardDiscount: document.querySelector('.dcard-discount-price')
+};
 
 export class DiscountInfo{
     constructor(){
@@ -21,26 +25,26 @@ export class DiscountInfo{
     }
 
     setupEventListeners(){
-        discountSelectElement.addEventListener('change', (event) => {
-            this.updatePlan(discount_select,discountSelectElement,family_discount_price);
-        });
+        discountSelectElement.addEventListener('change', this.updatePlan.bind(this));
 
-        family_discount_checkbox.addEventListener('change', (event) => {
-            this.onCheckboxChange(event,"familyDiscountPrice",family_discount_price.textContent.replace(/[^\d]/g, ''));
-        });
-
-        wi_fi_discount_checkbox.addEventListener('change', (event) => {
-            this.onCheckboxChange(event,"wifiDiscountPrice",wi_fi_discount_price.textContent.replace(/[^\d]/g, ''));
-        });
-
-        dcard_discount_checkbox.addEventListener('change', (event) => {
-            this.onCheckboxChange(event,"dCardDiscountPrice",dcard_discount_price.textContent.replace(/[^\d]/g, ''));
+        Object.keys(discountCheckboxElements).forEach(discountType => {
+            const checkboxElement = discountCheckboxElements[discountType];
+            const priceElement = discountPriceElements[discountType];
+            checkboxElement.addEventListener('change', (event) => {
+                this.onCheckboxChange(event,`${discountType}Price`, priceElement.textContent.replace(/[^\d]/g, ''));
+            });
         });
     }
 
-    updatePlan(discount,selectElement,priceElement){
-        const price = discount[selectElement.value];
-        priceElement.textContent = price.toLocaleString() + " 円 ";
+    updatePlan(event){
+        const selectedDiscount = discount_select[event.target.value];
+        discountPriceElements.familyDiscount.textContent = selectedDiscount.toLocaleString() + " 円 ";
+        
+        totalPrice.familyDiscountPrice = 0;
+        if(discountCheckboxElements.familyDiscount.checked){
+            totalPrice.familyDiscountPrice = selectedDiscount;
+        }
+        window.Total();
     }
 
     onCheckboxChange(event,key,price) {
@@ -48,10 +52,9 @@ export class DiscountInfo{
 
         if (checkbox.checked) {
             totalPrice[key] = price;
-            window.Total();
         } else {
             totalPrice[key] = 0;
-            window.Total();
         }
+        window.Total();
     }
 }

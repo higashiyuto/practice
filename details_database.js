@@ -10,6 +10,12 @@ const details_contents = [
             tabName: "irumo",
             content: "ドコモの格安プラン"
         }
+    },
+    {
+        "security-checkbox": {
+            tabName: "セキュリティ",
+            content: "スマホの内部の安全をまもる"
+        }
     }
 ]
 

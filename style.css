@@ -15,7 +15,7 @@ table{
 }
 
 table th, table td{
-    width: 100px;
+    /*width: 100px;*/
     border: 1px solid #ddd;
     padding: 8px;
 }
@@ -43,8 +43,30 @@ table th, table td{
 input[type="checkbox"]{
     width: 20px;
     height: 20px;
+    cursor: pointer;
 }
 
+.kaedoki-installments td:nth-child(2){
+    border-right: none;
+}
+
+.kaedoki-installments td:nth-child(3){
+    border-left: none;
+}
+
+.installments td:nth-child(3){
+    border-right: none;
+}
+
+.installments td:nth-child(4){
+    border-left: none;
+}
+
+.total{
+    font-size: 28px;
+    text-align: right;
+    padding-right: 50px;
+}
 
 /*details*/
 .details{
@@ -88,4 +110,3 @@ input[type="checkbox"]{
     display: block;
     padding: 20px;
 }
-

@@ -1,36 +1,50 @@
 import { totalPrice } from "./main.js";
+import { DetailsContentInfo } from './details_info.js';
 
-const call_option_select = {
-    "5分通話無料オプション": 880,
-    "かけ放題": 1980,
-    "なし": 0
+const detailsContentinfo = new DetailsContentInfo();
+
+export const optionSelects = {
+    call: {
+        "5分通話無料オプション": 880,
+        "かけ放題": 1980,
+        "なし": 0
+    },
+    warranty: {
+        "smartあんしん補償": 0,
+        "モバイルe保険": 770,
+        "なし": 0
+    },
+    mail: {
+        "ドコモメール持ち運び": 330,
+        "なし": 0
+    },
+    security: {
+        "ウイルスバスター 1台版": 770,
+        "ウイルスバスター 3台版": 990,
+        "あんしんセキュリティ 550円版": 550
+    }
 };
 
-export const warranty_option_select = {
-    "smartあんしん補償": 0,
-    "モバイルe保険": 770,
-    "なし": 0
+const priceElements = {
+    call: document.querySelector('.call-price'),
+    warranty: document.querySelector('.warranty-price'),
+    mail: document.querySelector('.mail-option-price'),
+    security: document.querySelector('.security-price')
 };
 
-const security_option_select = {
-    "ウイルスバスター 1台版": 770,
-    "ウイルスバスター 3台版": 990,
-    "あんしんセキュリティ 550円版": 550
+const selectElements = {
+    call: document.getElementById('call-option'),
+    warranty: document.getElementById('warranty-option'),
+    mail: document.getElementById('mail-option'),
+    security: document.getElementById('security-option')
 };
 
-const callPriceElement = document.querySelector('.call-price');
-const warrantyPriceElement = document.querySelector('.warranty-price');
-const mailPriceElement = document.querySelector('.mail-option-price');
-const securityPriceElement = document.querySelector('.security-price');
-
-const callSelectElement = document.getElementById('call-option');
-const warrantySelectElement = document.getElementById('warranty-option');
-const securitySelectElement = document.getElementById('security-option');
-
-const callCheckboxElement = document.querySelector('.call-checkbox');
-const warrantyCheckboxElement = document.querySelector('.warranty-checkbox');
-const mailCheckboxElement = document.querySelector('.mail-option-checkbox');
-const securityCheckboxElement = document.querySelector('.security-checkbox');
+const checkboxElements = {
+    call: document.querySelector('.call-checkbox'),
+    warranty: document.querySelector('.warranty-checkbox'),
+    mail: document.querySelector('.mail-option-checkbox'),
+    security: document.querySelector('.security-checkbox')
+};
 
 export class OptionInfo{
     constructor(){
@@ -38,49 +52,48 @@ export class OptionInfo{
     }
 
     setupEventListeners(){
-        callSelectElement.addEventListener('change', (event) => {
-            this.updateOption(call_option_select,callSelectElement,callPriceElement);
-        });
+        // 各選択肢に対するイベントリスナーを設定
+        Object.keys(optionSelects).forEach(optionType => {
+            const selectElement = selectElements[optionType];
+            const priceElement = priceElements[optionType];
+            const checkboxElement = checkboxElements[optionType];
 
-        warrantySelectElement.addEventListener('change', (event) => {
-            this.updateOption(warranty_option_select,warrantySelectElement,warrantyPriceElement);
-        });
+            // セレクトボックスの変更イベント
+            selectElement.addEventListener('change', (event) => {
+                this.handleOptionChange(optionType, event.target.value, priceElement);
+            });
 
-        securitySelectElement.addEventListener('change', (event) => {
-            this.updateOption(security_option_select,securitySelectElement,securityPriceElement);
-        });
-
-        callCheckboxElement.addEventListener('change', (event) => {
-            this.onCheckboxChange(event,"callOptionPrice",callPriceElement.textContent.replace(/[^\d]/g, ''));
-        });
-
-        warrantyCheckboxElement.addEventListener('change', (event) => {
-            this.onCheckboxChange(event,"warrantyOptionPrice",warrantyPriceElement.textContent.replace(/[^\d]/g, ''));
-        });
-
-        mailCheckboxElement.addEventListener('change', (event) => {
-            this.onCheckboxChange(event,"mailOptionPrice",330);
-        });
-
-        securityCheckboxElement.addEventListener('change', (event) => {
-            this.onCheckboxChange(event,"securityOptionPrice",securityPriceElement.textContent.replace(/[^\d]/g, ''));
+            // チェックボックスの変更イベント
+            checkboxElement.addEventListener('change', (event) => {
+                this.onCheckboxChange(optionType, event, priceElement);
+            });
         });
     }
 
-    updateOption(option,selectElement,optionElement){
-        const price = option[selectElement.value];
-        optionElement.textContent = price.toLocaleString() + " 円";
-    }
+    // セレクトボックス変更時の処理
+    handleOptionChange(optionType, selectedOption, priceElement) {
+        const price = optionSelects[optionType][selectedOption];
+        priceElement.textContent = `${price} 円`;
 
-    onCheckboxChange(event,key,price) {
-        const checkbox = event.target;
-
-        if (checkbox.checked) {
-            totalPrice[key] = price;
+        // チェックボックスがチェックされている場合、合計に反映
+        if (checkboxElements[optionType].checked) {
+            totalPrice[`${optionType}OptionPrice`] = price;
             window.Total();
+        }
+    }
+
+    // チェックボックス変更時の処理
+    onCheckboxChange(optionType, isChecked, priceElement) {
+        const price = parseInt(priceElement.textContent.replace(/[^\d]/g, '')) || 0;
+        totalPrice[`${optionType}OptionPrice`] = isChecked ? price : 0;
+        window.Total();
+
+        if (isChecked) {
+            // セキュリティのチェックボックスがオンになったとき
+            detailsContentinfo.showTabContent("セキュリティ");
         } else {
-            totalPrice[key] = 0;
-            window.Total();
+            // セキュリティのチェックボックスがオフになったとき
+            detailsContentinfo.removeTabContent("セキュリティ");
         }
     }
 }

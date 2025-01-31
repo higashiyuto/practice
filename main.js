@@ -13,7 +13,7 @@ export let totalPrice = {
     securityOptionPrice: 0,
     familyDiscountPrice: 0,
     wifiDiscountPrice: 0,
-    dCardDiscountPrice: 0,
+    dcardDiscountPrice: 0,
 };
 
 const totalElement = document.querySelector(".total");
@@ -21,9 +21,10 @@ const totalElement = document.querySelector(".total");
 window.Total = function() {
     total = parseInt(totalPrice.phonePrice)+parseInt(totalPrice.planPrice)+parseInt(totalPrice.callOptionPrice)
             +parseInt(totalPrice.warrantyOptionPrice)+parseInt(totalPrice.mailOptionPrice)+parseInt(totalPrice.securityOptionPrice)
-            -parseInt(totalPrice.familyDiscountPrice)-parseInt(totalPrice.wifiDiscountPrice)-parseInt(totalPrice.dCardDiscountPrice);
-    totalElement.textContent = "合計 " + total + " 円";
+            -parseInt(totalPrice.familyDiscountPrice)-parseInt(totalPrice.wifiDiscountPrice)-parseInt(totalPrice.dcardDiscountPrice);
+    totalElement.textContent = "合計 " + total.toLocaleString() + " 円";
 };
+
 new DeviceInfo();
 new PlanInfo();
 new OptionInfo();

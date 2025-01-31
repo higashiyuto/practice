@@ -18,6 +18,11 @@ export class DetailsContentInfo{
     showTabContent(checkboxText){
         const tabContentElement = document.createElement("div");
         const contentsContentElement = document.createElement("div");
+        const existingTab = document.querySelector(`.tab-${checkboxText}`);
+        if (existingTab) {
+            // タブが既に存在する場合は何もしない
+            return;
+        }
         if(!this.tabElement.querySelector(".tab")){
             this.createTabElement(tabContentElement,contentsContentElement,checkboxText);
             tabContentElement.classList.add("active");

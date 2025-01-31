@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+    <link rel="stylesheet" href="fullscreen.css">
 </head>
-
 <body>
     <div class="estimate">
         <div class="device-info">
@@ -179,14 +178,13 @@
                     <td style="text-align: center;"><input type="checkbox" class="dcard-discount-checkbox"></td>
                 </tr>
             </table>
-        </div>
 
-        <div style="text-align:right; font-size: 24px; font-weight: bold;" class="total">合計 0円</div>
-        
-        <button id="wide-button">＜ ＞</button>
+            <div style="text-align:right; font-size: 24px; font-weight: bold;" class="total">合計 0円</div>
+        </div>
+        <button id="index-button">＞＜</button>
         <script>
-            document.getElementById('wide-button').addEventListener('click', () => {
-                window.location.href = 'fullscreen.html';
+            document.getElementById('index-button').addEventListener('click', () => {
+                window.location.href = 'index.html';
             });
         </script>
     </div>

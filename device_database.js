@@ -3,7 +3,6 @@ export class DeviceDatabase {
     constructor() {
         this.devices = {
             "iPhone16 128GB": {
-<<<<<<< HEAD
                     price: 145200,
                     kaedokiPrice: 55440,
                     warranty: 880,
@@ -13,17 +12,6 @@ export class DeviceDatabase {
                         newContract: 5500
                     }
                 },
-=======
-                price: 145200,
-                kaedokiPrice: 55440,
-                warranty: 880,
-                discount: {
-                    upgrade: 5500,
-                    mnp: 39798,
-                    newContract: 5500
-                }
-            },
->>>>>>> 57e532745aa129f1162ce31bfdb6fdc9b875aa74
             "iPhone15 128GB": {
                 price: 119020,
                 kaedokiPrice: 44044,
